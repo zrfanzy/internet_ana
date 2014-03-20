@@ -1,4 +1,4 @@
-internet_ana
+internet_analytics
 ============
 
-labs for INTERNET ANALYTICS
+labs for INTERNET ANALYTICS(http://icawww1.epfl.ch/ix)
