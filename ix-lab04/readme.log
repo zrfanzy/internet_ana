@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013) (format=pdflatex 2013.10.9)  19 MAR 2014 09:38
+This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013) (format=pdflatex 2013.10.9)  24 MAR 2014 16:02
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -605,55 +605,70 @@ File: pic/p2.png Graphic file (type png)
 Package pdftex.def Info: pic/p2.png used on input line 78.
 (pdftex.def)             Requested size: 369.88582pt x 256.90594pt.
 
-Underfull \hbox (badness 10000) in paragraph at lines 71--80
+Underfull \hbox (badness 10000) in paragraph at lines 71--81
 
  []
 
 [1
 
 {/usr/local/texlive/2013/texmf-var/fonts/map/pdftex/updmap/pdftex.map} <./pic/p
-1.png>]
+1.png>] <pic/p3.png, id=13, 710.655pt x 482.80376pt>
+File: pic/p3.png Graphic file (type png)
+ <use pic/p3.png>
+Package pdftex.def Info: pic/p3.png used on input line 86.
+(pdftex.def)             Requested size: 284.52756pt x 193.30225pt.
+
+Underfull \hbox (badness 10000) in paragraph at lines 83--90
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 83--90
+
+ []
+
+[2 <./pic/p2.png> <./pic/p3.png>]
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <10.95> on input line 85.
+(Font)              <10.95> on input line 97.
 
-Underfull \hbox (badness 10000) in paragraph at lines 107--111
-
- []
-
-[2 <./pic/p2.png>]
-Underfull \hbox (badness 10000) in paragraph at lines 112--113
+Underfull \hbox (badness 10000) in paragraph at lines 119--123
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 129--132
+Underfull \hbox (badness 10000) in paragraph at lines 124--125
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 129--132
+Underfull \hbox (badness 10000) in paragraph at lines 141--144
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 148--149
+Underfull \hbox (badness 10000) in paragraph at lines 141--144
+
+ []
+
+[3]
+Underfull \hbox (badness 10000) in paragraph at lines 160--161
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 151--152
+Underfull \hbox (badness 10000) in paragraph at lines 163--164
 
  []
 
-[3] (./readme.aux) ) 
+[4] (./readme.aux) ) 
 Here is how much of TeX's memory you used:
- 4770 strings out of 493315
- 71824 string characters out of 6137904
+ 4775 strings out of 493315
+ 71889 string characters out of 6137904
  145637 words of memory out of 5000000
- 8142 multiletter control sequences out of 15000+600000
+ 8146 multiletter control sequences out of 15000+600000
  10051 words of font info for 35 fonts, out of 8000000 for 9000
  957 hyphenation exceptions out of 8191
- 44i,10n,43p,356b,189s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 44i,10n,43p,356b,190s stack positions out of 5000i,500n,10000p,200000b,80000s
 </usr/local/texlive/2013/texmf-dist/fonts/type1/public/amsf
 onts/cm/cmmi8.pfb></usr/local/texlive/2013/texmf-dist/fonts/type1/public/amsfon
 ts/cm/cmr10.pfb></usr/local/texlive/2013/texmf-dist/fonts/type1/public/amsfonts
@@ -665,10 +680,10 @@ cmr6.pfb></usr/local/texlive/2013/texmf-dist/fonts/type1/public/amsfonts/cm/cmr
 pfb></usr/local/texlive/2013/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pf
 b></usr/local/texlive/2013/texmf-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb
 >
-Output written on readme.pdf (3 pages, 128052 bytes).
+Output written on readme.pdf (4 pages, 135837 bytes).
 PDF statistics:
- 56 PDF objects out of 1000 (max. 8388607)
- 38 compressed objects within 1 object stream
+ 60 PDF objects out of 1000 (max. 8388607)
+ 40 compressed objects within 1 object stream
  0 named destinations out of 1000 (max. 500000)
- 11 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 16 words of extra memory for PDF output out of 10000 (max. 10000000)
 

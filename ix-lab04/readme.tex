@@ -67,7 +67,28 @@
 \maketitle
 
 \section{Faces}
-\subsection{Dimensionality of the Dataset}
+1. Done\\
+2.  The eignvalue plot is as below:\\
+\centerline{
+\includegraphics[width=13cm]{pic/p4}}\\
+3. The first principal component exlain \emph{0.378182} of the variance.\\
+The first two principal components exlain \emph{0.458936} of the variance.
+The first three principal components exlain \emph{0.505655} of the variance.
+4. I sorted the variances and get the plot: \\
+\centerline{
+\includegraphics[width=13cm]{pic/p2}}\\
+but still can't really find how many dimensions it can be precised to.\\
+5. It's really hard and I give it up.\\
+
+\subsection{Principal Component Analysis}
+6. Done.\\
+7. See the plot of the variances as below. It's obvious that \emph{7} components are stand out, and it's equal to the answer of quesion 2.\\
+\centerline{
+\includegraphics[width=10cm]{pic/p3}}
+8. \& 9. Done. \\
+10. With very happy(mouth up) face[dim 1], whose eyes are slightly larger than normal[dim 2] and green[dim 3]. His hair is relatively[dim 4] and is in bright yellow color[dim 5]. Normal face color(not too dark or too bright)[dim 6], and pobably with a brown hat[dim 7].\\
+
+\section{Smartvote}
 1. There are \emph{5000} faces and \emph{50} measurements.\\
 2.  See the \emph{variance-dimension} plot as below:\\
 \centerline{
@@ -76,94 +97,14 @@
 4. I sorted the variances and get the plot: \\
 \centerline{
 \includegraphics[width=13cm]{pic/p2}}\\
-5.  \\
+but still can't really find how many dimensions it can be precised to.\\
+5. It's really hard and I give it up.\\
+
 \subsection{Principal Component Analysis}
-See file \emph{CoActorPrediction.java} to view my implementation of the classes.
-\\
-And I computer \emph{MyOwnScorning} with:
-\\
-\centerline{$\frac{N(u, v)^{2} \times \sqrt{|N(u)-N(v)|}}{N(u) + N(v)}$}
-\\
-In which N(i) stands for neibour number of i, and N(i, j) stands for common neibour number of i and j.
-\\
-And Here's accuracy of the 3 link prediction strategies: 
-
-\begin{table}[!hbp]
-\centering
-\begin{tabular}{|c|c|c|}
-\hline
-Name & Accuracy & Improvement \\
-\hline
-PreferentialAttachment & 2.096\% & 3.19x \\
-\hline
-CommonNeighbors & 5.114\% & 7.79x \\
-\hline
-MyOwnScoring & 5.388\% & 8.21x \\
-\hline
-\end{tabular}
-\end{table}
-
-\section{Random Walks}
-1. Setting N = 10000 and node u as initial seed, the average of a Facebook user is \emph{48.6725}, which still has a difference with the reference answer. The problem I think, is the \emph{algorithm itself}, and \emph{maybe node u is in a small component of the network}, and maybe \emph{the dataset itself changes}.
-\\
-2. I changed walk strategy in my algorithm: every time I walk across 3 people instead of one(i.e. I walk to the node's neighbor's neighbor's neighbor instead of its neighbor), and there's also a repeat judgment in my code. After changing, the estimated age becomes \emph{50.675}, which is more close to the reference answer.
-\\
-\subsection{Bizarre Social Networks}
-1. Setting N = 10000 and using different beginning node, we get average age as below: \\
-
-\begin{table}[!hbp]
-\centering
-\begin{tabular}{|c|c|c|}
-\hline
-Beginning Node & Average Age & Age of Beginning Node \\
-\hline
-u & 50.1445 & 13\\
-\hline
-v & 55.5635 & 39 \\
-\hline
-w & 64.1295 & 89 \\
-\hline
-\end{tabular}
-\end{table}
-
-we can see much difference between each other. And we can also find that with younger beginning node we get smaller average age and with older beginning node we get larger average age. Maybe it's the \emph{Herding} property. The friends are seems so familiar.\\
-\\
-2. The same strategy as above, now get the answers:\\
-
-\begin{table}[!hbp]
-\centering
-\begin{tabular}{|c|c|c|}
-\hline
-Beginning Node & Average Age & Age of Beginning Node \\
-\hline
-u & 58.721 & 13\\
-\hline
-v & 58.2856 & 39 \\
-\hline
-w & 57.4979 & 89 \\
-\hline
-\end{tabular}
-\end{table}
-
-The answeres now become more similar :) \\
-
-
-Finally, I use my strategy(this time, walk across 6 people every time) on the \emph{Directions}, get answers:\\
-
-\begin{table}[!hbp]
-\centering
-\begin{tabular}{|c|c|c|}
-\hline
-Beginning Node & Average Age & Age of Beginning Node \\
-\hline
-u & 49.5636 & 23\\
-\hline
-v & 49.4373 & 22 \\
-\hline
-w & 49.4054 & 39 \\
-\hline
-\end{tabular}
-\end{table}
-
-So, my estimate of the average age of Directions's users is \emph{49.5}.
+6. Done.\\
+7. See the plot of the variances as below. It's obvious that \emph{7} components are stand out, and it's equal to the answer of quesion 2.\\
+\centerline{
+\includegraphics[width=10cm]{pic/p3}}
+8. \& 9. Done. \\
+10. With very happy(mouth up) face[dim 1], whose eyes are slightly larger than normal[dim 2] and green[dim 3]. His hair is relatively[dim 4] and is in bright yellow color[dim 5]. Normal face color(not too dark or too bright)[dim 6], and pobably with a brown hat[dim 7].\\
 \end{document}
