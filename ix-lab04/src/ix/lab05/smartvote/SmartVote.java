@@ -2,6 +2,7 @@ package ix.lab05.smartvote;
 
 import ix.lab05.faces.PCAResult;
 
+import java.util.Iterator;
 import java.util.List;
 
 import Jama.Matrix;
@@ -82,7 +83,7 @@ public class SmartVote {
         /*SmartVoteUtils.plotProjection(projected.transpose().getArray()[0],
         		projected.transpose().getArray()[1],
         		data.partyAffiliations);*/
-        SmartVoteUtils.plotProjection(projected.transpose().getArray()[1],
+        SmartVoteUtils.plotProjection(projected.transpose().getArray()[0],
         		projected.transpose().getArray()[2],
         		data.partyAffiliations);
     	/*
@@ -106,6 +107,47 @@ public class SmartVote {
          *
          * Hint: use SmartVoteUtils.topThree(..).
          */
+    	Matrix datas = data.answersMatrix;
+    	int M = datas.getColumnDimension();
+        int N = datas.getRowDimension();
+        // get MEAN
+        double[] mean = new double[M];
+        for (int i = 0; i < M; ++i) {
+        	mean[i] = 0;
+        	for (int j = 0; j < N; ++j) {
+        		mean[i] = mean[i] + datas.get(j, i);
+        	}
+        	mean[i] = mean[i] / (double)N;
+        }
+        Matrix tmp_data = datas.copy();
+        for (int i = 0; i < M; ++i) {
+        	for (int j = 0; j < N; ++j) {
+        		tmp_data.set(j, i, datas.get(j, i) - mean[i]);
+        	}
+        }
+        Matrix z = tmp_data.transpose().times(tmp_data).times(1/(double)N);
+        EigenDecomposition ed = new EigenDecomposition(z);
+    	PCAResult result = new PCAResult(ed.eigenvectors, ed.eigenvalues);
+        Iterable<Integer> ans = SmartVoteUtils.topThree(result.rotation.transpose().getArray()[0]);
+        System.out.println("First Component:");
+        Iterator it = ans.iterator();
+        System.out.println(qs.get((Integer) it.next()));
+        System.out.println(qs.get((Integer) it.next()));
+        System.out.println(qs.get((Integer) it.next()));
+        System.out.println("----------------------");
+        ans = SmartVoteUtils.topThree(result.rotation.transpose().getArray()[1]);
+        System.out.println("Second Component:");
+        it = ans.iterator();
+        System.out.println(qs.get((Integer) it.next()));
+        System.out.println(qs.get((Integer) it.next()));
+        System.out.println(qs.get((Integer) it.next()));
+        System.out.println("----------------------");
+        ans = SmartVoteUtils.topThree(result.rotation.transpose().getArray()[2]);
+        System.out.println("Third Component:");
+        it = ans.iterator();
+        System.out.println(qs.get((Integer) it.next()));
+        System.out.println(qs.get((Integer) it.next()));
+        System.out.println(qs.get((Integer) it.next()));
     }
 
 

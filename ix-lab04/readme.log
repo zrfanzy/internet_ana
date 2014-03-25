@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013) (format=pdflatex 2013.10.9)  24 MAR 2014 16:02
+This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013) (format=pdflatex 2013.10.9)  25 MAR 2014 15:59
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -593,97 +593,78 @@ LaTeX Font Info:    External font `cmex10' loaded for size
 (Font)              <8> on input line 67.
 LaTeX Font Info:    External font `cmex10' loaded for size
 (Font)              <6> on input line 67.
-<pic/p1.png, id=1, 657.45625pt x 452.69125pt>
-File: pic/p1.png Graphic file (type png)
- <use pic/p1.png>
-Package pdftex.def Info: pic/p1.png used on input line 74.
-(pdftex.def)             Requested size: 369.88582pt x 254.68655pt.
+<pic/p4.png, id=1, 665.48625pt x 479.7925pt>
+File: pic/p4.png Graphic file (type png)
+ <use pic/p4.png>
+Package pdftex.def Info: pic/p4.png used on input line 73.
+(pdftex.def)             Requested size: 369.88582pt x 266.676pt.
 
 <pic/p2.png, id=2, 660.4675pt x 458.71375pt>
 File: pic/p2.png Graphic file (type png)
  <use pic/p2.png>
-Package pdftex.def Info: pic/p2.png used on input line 78.
+Package pdftex.def Info: pic/p2.png used on input line 77.
 (pdftex.def)             Requested size: 369.88582pt x 256.90594pt.
 
-Underfull \hbox (badness 10000) in paragraph at lines 71--81
+Underfull \hbox (badness 10000) in paragraph at lines 70--80
 
  []
 
 [1
 
 {/usr/local/texlive/2013/texmf-var/fonts/map/pdftex/updmap/pdftex.map} <./pic/p
-1.png>] <pic/p3.png, id=13, 710.655pt x 482.80376pt>
+4.png>] <pic/p3.png, id=13, 710.655pt x 482.80376pt>
 File: pic/p3.png Graphic file (type png)
  <use pic/p3.png>
-Package pdftex.def Info: pic/p3.png used on input line 86.
+Package pdftex.def Info: pic/p3.png used on input line 85.
 (pdftex.def)             Requested size: 284.52756pt x 193.30225pt.
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <10.95> on input line 89.
 
-Underfull \hbox (badness 10000) in paragraph at lines 83--90
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 83--90
+Underfull \hbox (badness 10000) in paragraph at lines 82--110
 
  []
 
 [2 <./pic/p2.png> <./pic/p3.png>]
-LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <10.95> on input line 97.
+File: pic/p4.png Graphic file (type png)
+ <use pic/p4.png>
+Package pdftex.def Info: pic/p4.png used on input line 115.
+(pdftex.def)             Requested size: 369.88582pt x 266.676pt.
 
-Underfull \hbox (badness 10000) in paragraph at lines 119--123
+<pic/p5.png, id=17, 961.5925pt x 653.44125pt>
+File: pic/p5.png Graphic file (type png)
+ <use pic/p5.png>
+Package pdftex.def Info: pic/p5.png used on input line 119.
+(pdftex.def)             Requested size: 369.88582pt x 251.35132pt.
 
+Overfull \hbox (4.17235pt too wide) in paragraph at lines 112--136
+\OT1/cmr/m/n/10.95 7. I find the most relevent ques-tions by \OT1/cmr/m/it/10.9
+5 find the max-i-mum ab-so-lute value of the coresspond-
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 124--125
+Underfull \hbox (badness 10000) in paragraph at lines 112--136
 
  []
 
-
-Underfull \hbox (badness 10000) in paragraph at lines 141--144
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 141--144
-
- []
-
-[3]
-Underfull \hbox (badness 10000) in paragraph at lines 160--161
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 163--164
-
- []
-
-[4] (./readme.aux) ) 
+[3] [4 <./pic/p5.png>] [5] (./readme.aux) ) 
 Here is how much of TeX's memory you used:
- 4775 strings out of 493315
- 71889 string characters out of 6137904
- 145637 words of memory out of 5000000
- 8146 multiletter control sequences out of 15000+600000
+ 4780 strings out of 493315
+ 71954 string characters out of 6137904
+ 146637 words of memory out of 5000000
+ 8150 multiletter control sequences out of 15000+600000
  10051 words of font info for 35 fonts, out of 8000000 for 9000
  957 hyphenation exceptions out of 8191
- 44i,10n,43p,356b,190s stack positions out of 5000i,500n,10000p,200000b,80000s
-</usr/local/texlive/2013/texmf-dist/fonts/type1/public/amsf
-onts/cm/cmmi8.pfb></usr/local/texlive/2013/texmf-dist/fonts/type1/public/amsfon
-ts/cm/cmr10.pfb></usr/local/texlive/2013/texmf-dist/fonts/type1/public/amsfonts
-/cm/cmr12.pfb></usr/local/texlive/2013/texmf-dist/fonts/type1/public/amsfonts/c
-m/cmr17.pfb></usr/local/texlive/2013/texmf-dist/fonts/type1/public/amsfonts/cm/
-cmr6.pfb></usr/local/texlive/2013/texmf-dist/fonts/type1/public/amsfonts/cm/cmr
-8.pfb></usr/local/texlive/2013/texmf-dist/fonts/type1/public/amsfonts/cm/cmss12
-.pfb></usr/local/texlive/2013/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.
-pfb></usr/local/texlive/2013/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pf
-b></usr/local/texlive/2013/texmf-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb
->
-Output written on readme.pdf (4 pages, 135837 bytes).
+ 44i,10n,43p,407b,193s stack positions out of 5000i,500n,10000p,200000b,80000s
+</usr/local/texlive/2013/texmf-dist/
+fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/local/texlive/2013/texmf-dist/fo
+nts/type1/public/amsfonts/cm/cmr12.pfb></usr/local/texlive/2013/texmf-dist/font
+s/type1/public/amsfonts/cm/cmr17.pfb></usr/local/texlive/2013/texmf-dist/fonts/
+type1/public/amsfonts/cm/cmss12.pfb></usr/local/texlive/2013/texmf-dist/fonts/t
+ype1/public/amsfonts/cm/cmti10.pfb>
+Output written on readme.pdf (5 pages, 148423 bytes).
 PDF statistics:
- 60 PDF objects out of 1000 (max. 8388607)
- 40 compressed objects within 1 object stream
+ 44 PDF objects out of 1000 (max. 8388607)
+ 27 compressed objects within 1 object stream
  0 named destinations out of 1000 (max. 500000)
- 16 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 21 words of extra memory for PDF output out of 10000 (max. 10000000)
 
