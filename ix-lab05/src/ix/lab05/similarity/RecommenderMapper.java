@@ -6,6 +6,7 @@ import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.io.IntWritable;
 import org.apache.hadoop.io.NullWritable;
 import org.apache.hadoop.mapreduce.Mapper;
+import org.apache.mahout.math.SequentialAccessSparseVector;
 import org.apache.mahout.math.Vector;
 import org.apache.mahout.math.VectorWritable;
 
@@ -69,9 +70,12 @@ public class RecommenderMapper extends
         if (otherId.get() == this.myId) {
             return;
         }
-
+        
+        Vector ratings = new SequentialAccessSparseVector(Integer.MAX_VALUE, 1);
+        Vector r = otherRatings.get();
         //TODO
-
+        Double ans = VectorUtils.cosineSimilarity(myRatings, r);
+        outputValue.set(ans, r);
         context.write(this.nullKey, this.outputValue);
     }
 

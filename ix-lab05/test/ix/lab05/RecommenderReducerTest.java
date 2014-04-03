@@ -95,7 +95,8 @@ public class RecommenderReducerTest {
 		assertEquals(1, outputs.size());
 		
 		Vector actualRatings = outputs.get(0).getSecond().get();
-		
+		System.out.println(":" + expectedRatings.get(1));
+		System.out.println(":" + expectedRatings.get(2));
 		assertEquals("Rating 1", expectedRatings.get(1), actualRatings.get(1), EPSILON);
 		assertEquals("Rating 2", expectedRatings.get(2), actualRatings.get(2), EPSILON);
 	}

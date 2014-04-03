@@ -26,7 +26,15 @@ public class NetflixMatrixReducer extends
         Vector ratings = new SequentialAccessSparseVector(Integer.MAX_VALUE, 1);
 
         // TODO
-
+        for (Text t : inputValues) {
+        	String s = t.toString();
+        	int i = s.indexOf(TAB);
+        	String movieID = s.substring(0, i);
+        	int ID = Integer.parseInt(movieID);
+        	s = s.substring(i + 1);
+        	double rate = Double.parseDouble(s);
+        	ratings.set(ID, rate);
+        }
         this.outputValue.set(ratings);
         context.write(inputKey, this.outputValue);
 

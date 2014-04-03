@@ -25,8 +25,10 @@ public class RMSETest {
     public void testRMSE() {
         UVRecommender rec = MockRecommender.getDefault();
         Map<Integer, Double> recommendations = rec.predictRatings(1);
-        
+        System.out.println(recommendations.toString());
         double error = RMSE.evaluate(GROUND_TRUTH, recommendations);
+        System.out.println(error);
+        System.out.println(TRUE_RMSE);
         assertEquals(TRUE_RMSE, error, 0.0001);
     }
 }

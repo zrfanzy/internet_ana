@@ -57,6 +57,7 @@ public class RecommenderReducer extends
                 Integer.MAX_VALUE, 1);
         // maps movie id to sum of similarities
         Vector normalization = new RandomAccessSparseVector(Integer.MAX_VALUE, 1);
+        Double allsim = 0.0;
 
         // process contribution of each user
         for (UserContribution userContribution : userContributions) {
@@ -65,7 +66,7 @@ public class RecommenderReducer extends
             if (similarity == 0) {
                 continue;
             }
-            
+            allsim = allsim + similarity;
             Vector ratings = userContribution.getRatings();
 
             // add user contributions to sum of recommendations
@@ -74,11 +75,19 @@ public class RecommenderReducer extends
 
                 int movieID = el.index();
                 double rating = el.get();
-
+                recommendations.set(movieID, recommendations.get(movieID) + similarity * rating);
+                normalization.set(movieID, normalization.get(movieID) + similarity);
                 //TODO
             }
         }
+        for (Iterator<Element> it = recommendations.iterateNonZero(); it.hasNext();) {
+            Element el = it.next();
 
+            int movieID = el.index();
+            double rating = el.get();
+            recommendations.set(movieID, recommendations.get(movieID) / normalization.get(movieID));
+            //TODO
+        }
         // divide all recommendations by the sum of similarities
         //TODO
 

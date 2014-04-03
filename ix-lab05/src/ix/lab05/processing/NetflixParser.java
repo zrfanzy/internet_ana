@@ -14,6 +14,7 @@ import org.apache.hadoop.fs.FileStatus;
 import org.apache.hadoop.fs.FileSystem;
 import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.thirdparty.guava.common.base.Charsets;
+import org.apache.lucene.analysis.compound.hyphenation.TernaryTree.Iterator;
 import org.apache.mahout.common.iterator.FileLineIterable;
 
 
@@ -45,7 +46,21 @@ public final class NetflixParser {
         String movieID = null;
         String userID = null;
         String rating = null;
-
+        Boolean f = false;
+        for (String s : lines) {
+        	if (f == false) {
+        		int i = s.indexOf(':');
+        		movieID = s.substring(0, i);
+        		f = true;
+        		continue;
+        	}
+        	int i = s.indexOf(',');
+        	userID = s.substring(0, i);
+        	s = s.substring(i + 1);
+        	i = s.indexOf(',');
+        	rating = s.substring(0, i);
+        	writer.append(userID + TAB + movieID + TAB + rating + NEWLINE);
+        }
         //TODO: extract the information from lines and write them to writer in the correct format
     }
 

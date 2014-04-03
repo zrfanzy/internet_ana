@@ -25,7 +25,9 @@ public class NetflixMatrixMapper extends
             throws IOException, InterruptedException {
 
         String[] tokens = inputValue.toString().split(TAB);
-
+        outputKey.set(Integer.parseInt(tokens[0]));
+        outputValue.set(tokens[1] + TAB + tokens[2]);
+        context.write(outputKey, outputValue);
         // TODO
     }
 

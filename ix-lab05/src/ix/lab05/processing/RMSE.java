@@ -3,6 +3,7 @@ package ix.lab05.processing;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 import java.util.Scanner;
 
@@ -26,8 +27,14 @@ public final class RMSE {
      */
     public static double evaluate(Map<Integer, Double> groundTruth, Map<Integer, Double> recommendations) {
         //TODO
-        
-        return 0.0;
+    	int N = 0;
+    	double ans = 0.0;
+    	for (Map.Entry<Integer, Double> entry : groundTruth.entrySet())
+    	{
+    		N ++;
+    		ans = ans + Math.pow(entry.getValue() - recommendations.get(entry.getKey()), 2);
+    	}
+        return Math.sqrt(ans / N);
     }
     
     /**
