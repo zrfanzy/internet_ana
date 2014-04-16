@@ -98,8 +98,8 @@ public class UVRecommender {
      * @return the predicted rating
      */
     private double predictRating(Vector userFeats, Vector itemFeatures) {
-    	//TODO
-        return 0.0;
+    	//
+        return userFeats.dot(itemFeatures);
     }
     
 

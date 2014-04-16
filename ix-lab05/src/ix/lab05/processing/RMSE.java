@@ -32,7 +32,7 @@ public final class RMSE {
     	for (Map.Entry<Integer, Double> entry : groundTruth.entrySet())
     	{
     		N ++;
-    		ans = ans + Math.pow(entry.getValue() - recommendations.get(entry.getKey()), 2);
+    		ans = ans + Math.pow(entry.getValue() - recommendations.get(entry.getKey()), 2.0);
     	}
         return Math.sqrt(ans / N);
     }
