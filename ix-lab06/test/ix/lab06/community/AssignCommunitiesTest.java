@@ -1,6 +1,7 @@
 package ix.lab06.community;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotSame;
 import ix.lab06.utils.WeightedGraph;
 
 import java.io.IOException;
@@ -21,6 +22,13 @@ public class AssignCommunitiesTest {
         int comm2 = nodeCommunities.get("3");
         int comm3 = nodeCommunities.get("8");
         int comm4 = nodeCommunities.get("11");
+        
+        assertNotSame(comm1, comm2);
+        assertNotSame(comm1, comm3);
+        assertNotSame(comm1, comm4);
+        assertNotSame(comm2, comm3);
+        assertNotSame(comm2, comm4);
+        assertNotSame(comm3, comm4);
 
         assertEquals(nodeCommunities.get("1").intValue(), comm1);
         assertEquals(nodeCommunities.get("2").intValue(), comm1);
