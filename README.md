@@ -25,3 +25,13 @@ Lab04: Dimensionality Reduction
 -------------
 Measurements of computer-generated faces. (Using PCA)<br />
 Same analysis with Smartvote. (political)<br />
+
+Lab05: Recommender Systems
+-------------
+Make recommender system on data from THE NETFLIX PRIZE<br />
+  Method 1: Similarity-based recommender.<br />
+  Method 2: UV-factorization (paper on http://goo.gl/YrUxB).<br />
+  Using RMSE to evalute.
+
+Lab06: Clustering and Community Detection
+-------------
