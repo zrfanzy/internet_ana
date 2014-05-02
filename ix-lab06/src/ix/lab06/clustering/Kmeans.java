@@ -85,6 +85,17 @@ public class Kmeans {
      */
     public void mStep() {
         // According to the assignment, we update the center of each cluster
+    	for (int c = 0; c < this.k; ++c) {
+    		Point2d rnk = new Point2d(0, 0);
+    		double sum = 0.0;
+    		for (int p = 0; p < this.data.length; ++p) {
+    			if (this.assignments[p] == c) {
+    				sum = sum + 1;
+    				rnk.set(rnk.getX() + this.data[p].getX(), rnk.getY() + this.data[p].getY());
+    			}
+    		}
+    		this.centers[c].set(rnk.getX() / sum, rnk.getY() / sum);
+    	}
         //TODO
     }
 
@@ -114,10 +125,19 @@ public class Kmeans {
      *            Number of iterations to run.
      */
     public void run(int nbIterations) {
+    	Boolean flag = false;
+    	double t = 0.0;
         for (int i = 0; i < nbIterations; i++) {
             this.eStep();
             this.mStep();
             System.out.format("Distortion: %f%n", this.distortionMeasure());
+            if (flag) {
+            	if (Math.abs(t - this.distortionMeasure()) < 1e-9) {
+            		break;
+            	}
+            }
+            flag = true;
+            t = this.distortionMeasure();
         }
     }
 

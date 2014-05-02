@@ -11,6 +11,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
+import org.apache.commons.math.distribution.NormalDistribution;
 import org.apache.commons.math3.distribution.MultivariateNormalDistribution;
 
 public class GaussianMixtureModel {
@@ -70,7 +71,6 @@ public class GaussianMixtureModel {
             // start with identity covariance matrix
             this.sigmas[c] = new Covariance2d(1, 1, 0);
         }
-
         // normalize mixture coefficients
         for (int i = 0; i < k; i++) {
             this.pi[i] /= coefficientsSum;
@@ -84,6 +84,20 @@ public class GaussianMixtureModel {
     public void eStep() {
         //TODO
         // Hint: look at the MultivariateNormalDistribution class used in logLikelihood
+    	MultivariateNormalDistribution[] pdfs = new MultivariateNormalDistribution[this.k];
+        for (int c = 0; c < this.k; c++) {
+            pdfs[c] = new MultivariateNormalDistribution(this.mus[c].toArray(),
+                    this.sigmas[c].toArray());
+        }
+        for (int p = 0; p < this.data.length; ++p) {
+        	double sum = 0.0;
+        	for (int c = 0; c < this.k; ++c) {
+        		sum += pdfs[c].density(this.data[p].toArray()) * this.pi[c];
+        	}
+        	for (int c = 0; c < this.k; ++c) {
+        		this.gamma[p][c] = this.pi[c] * pdfs[c].density(this.data[p].toArray()) / sum;
+        	}
+        }
     }
 
     /**
@@ -92,13 +106,47 @@ public class GaussianMixtureModel {
      */
     public void mStep() {
         //TODO
+    	for (int c = 0; c < this.k; ++c) {
+    		double Nsum = 0.0;
+    		//compute mus
+    		this.mus[c].set(0.0, 0.0);
+    		for (int i = 0; i < this.data.length; ++i) {
+    			Nsum = Nsum + gamma[i][c];
+    			this.mus[c].set(this.mus[c].getX() + gamma[i][c] * this.data[i].getX(),
+    					this.mus[c].getY() + gamma[i][c] * this.data[i].getY());
+    		}
+    		this.mus[c].set(this.mus[c].getX() / Nsum, this.mus[c].getY() / Nsum);
+    		
+    		double x = 0.0, y = 0.0, xy = 0.0;
+    		for (int i = 0; i < this.data.length; ++i) {
+    			double a = this.data[i].getX() - this.mus[c].getX();
+    			double b = this.data[i].getY() - this.mus[c].getY();
+    			x += a * a * this.gamma[i][c];
+    			y += b * b * this.gamma[i][c];
+    			xy += a * b * this.gamma[i][c];
+    		}
+    		this.sigmas[c].set(x / Nsum, y / Nsum, xy / Nsum);
+    		
+    		this.pi[c] = Nsum / this.data.length;
+    	}
+    	
+    	
     }
 
     public void run(int iter) {
-        for (int i = 0; i < iter; i++) {
+    	Boolean flag = false;
+    	double t = 0.0;
+    	for (int i = 0; i < iter; i++) {
             this.eStep();
             this.mStep();
             System.out.format("ll: %f \n", this.logLikelihood());
+            if (flag) {
+            	if (Math.abs(t - this.logLikelihood()) < 1e-9) {
+            		break;
+            	}
+            }
+            flag = true;
+            t = this.logLikelihood();
         }
     }
 
