@@ -12,12 +12,12 @@ import org.junit.Test;
 public class AssignCommunitiesTest {
 
     @Test
-    public void testAssignCommunities() throws IOException {
+    public void testAssignCommunities()  throws IOException {
         WeightedGraph gwl = WeightedGraph.parse("test/test_03.txt");
         Status s = new Status(gwl);
         s.assignCommunities();
         Map<String, Integer> nodeCommunities = s.getNodesCommunity();
-
+        
         int comm1 = nodeCommunities.get("0");
         int comm2 = nodeCommunities.get("3");
         int comm3 = nodeCommunities.get("8");

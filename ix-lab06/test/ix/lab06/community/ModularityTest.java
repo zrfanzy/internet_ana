@@ -49,6 +49,8 @@ public class ModularityTest {
             throws IOException {
         WeightedGraph graph = WeightedGraph.parse(fileName);
         Status s = new Status(graph, nodeCommunities);
+        System.out.println(truth);
+        System.out.println(s.modularity());
         assertEquals(truth, s.modularity(), DELTA);
     }
 

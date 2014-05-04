@@ -34,6 +34,7 @@ public class WeightToNeighboringCommunitiesTest {
         Status s = new Status(graph, nodeCommunities);
 
         Map<Integer, Long> w1 = s.weightToNeighboringCommunities("0");
+        
         assertEquals(w1.get(0).longValue(), 4);
         assertEquals(w1.get(1).longValue(), 3);
 

@@ -2,6 +2,7 @@ package ix.lab06.community;
 
 import ix.lab06.utils.DataUtils;
 import ix.lab06.utils.WeightedGraph;
+import ix.lab06.community.Status;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,6 +38,15 @@ public class Louvain {
      */
     public void communityDetection() {
         //TODO
+    	double delta = 0.0;
+    	int level = 0;
+    	do {
+    		Status s = statusList.get(level ++);
+    		s.assignCommunities();
+    		Status s1 = s.getNextLevel();
+    		statusList.add(s1);
+    		delta = s1.modularity() - s.modularity();
+    	} while (delta > CHANGE_MIN);
         // Hint: use status.getNextLevel() to get the induced graph for the next iteration of Louvain
     }
 

@@ -4,6 +4,7 @@ import ix.lab06.utils.WeightedGraph;
 
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Set;
 import java.util.TreeMap;
 
 /**
@@ -78,7 +79,6 @@ public class Status {
     protected void computeCommunityStats() {
         this.communitiesDegrees.clear();
         this.communitiesInternalWeights.clear();
-
         for (String u : graph.getNodes()) {
             // get node community
             int nodeCommunity = this.nodesCommunity.get(u);
@@ -125,6 +125,11 @@ public class Status {
     public double modularity() {
         double modularity = 0;
         // TODO
+        double m = this.graph.getTotalWeight();
+        for (Entry<Integer, Long> e : communitiesInternalWeights.entrySet()) {
+        	modularity += (double)e.getValue() / m;
+        	modularity -= Math.pow((double)this.communitiesDegrees.get(e.getKey()) / 2 / m, 2);
+        }
         // Hint: make use of communitiesDegrees and communitiesInternalWeights!
         return modularity;
     }
@@ -142,7 +147,21 @@ public class Status {
      */
     public Map<Integer, Long> weightToNeighboringCommunities(String node) {
         Map<Integer, Long> weights = new TreeMap<Integer, Long>();
-
+        Map<String, Long> edges = this.graph.getEdgesFrom(node);
+        for (Entry<String, Long> e : edges.entrySet()) {
+        	String nod = e.getKey();
+        	Long we = e.getValue();
+        	if (nod.compareTo(node) == 0) continue;
+        	int com = this.nodesCommunity.get(nod);
+        	
+        	if (weights.containsKey(com)) {
+        		weights.put(com, weights.get(com) + we);
+        	}
+        	else {
+        		weights.put(com, we);
+        	}
+        	
+        }
         // TODO
 
         return weights;
@@ -156,7 +175,48 @@ public class Status {
     public void assignCommunities() {
         // TODO
         // Hint: use weightToNeighboringCommunities(), removeNodeFromCommunity()
-        // and insertNodeIntoCommunity()
+    	// and insertNodeIntoCommunity()
+    	double m = this.graph.getTotalWeight();
+    	Boolean flag = true;
+    	int i = 0;
+    	while (flag && i < PASS_MAX) {
+    		++ i;
+    		flag = false;
+    		Set<String> nods = this.graph.getNodes();
+    		for (String node : nods) {
+    			Long weightin = (long) 0;
+    			int com = this.getNodesCommunity().get(node);
+    			double lar = 0.0;
+    			Map<String, Long> maps = this.graph.getEdgesFrom(node);
+    			for (Entry<String, Long> e : maps.entrySet()) {
+    	        	String nod = e.getKey();
+    	        	if (nod != node) {
+    	        		if (getNodesCommunity().get(nod) == com)
+    	        			weightin += e.getValue();
+    	        	}
+    	        }
+    			removeNodeFromCommunity(node, weightin);
+    			
+    	        int ans = com;
+    	        
+    	        Map<Integer, Long> weights = this.weightToNeighboringCommunities(node);
+    			for (Entry<Integer, Long> e : weights.entrySet()) {
+    	        	int comnum = e.getKey();
+    	        	long comwei = e.getValue();
+    	        	double now = (double)comwei / (double)m - (double)(communitiesDegrees.get(comnum) *
+    	        			graph.getNodeDegree(node)) / (double) m / (double) m / 2;
+    	        	if (now > lar) {
+    	        		lar = now;
+    	        		ans = comnum;
+    	        		weightin = comwei;
+    	        	}
+    	        }
+        		if (ans >= 0) {
+        			insertNodeIntoCommunity(node, ans, weightin);
+        			flag = true;
+        		}
+    		}
+    	}
     }
 
     /**
