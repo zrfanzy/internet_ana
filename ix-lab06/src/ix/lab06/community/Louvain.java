@@ -46,7 +46,8 @@ public class Louvain {
     		Status s1 = s.getNextLevel();
     		statusList.add(s1);
     		delta = s1.modularity() - s.modularity();
-    	} while (delta > CHANGE_MIN);
+    	} while (level == 1);//(delta > CHANGE_MIN);
+    	System.out.println(statusList.get(level).modularity());
         // Hint: use status.getNextLevel() to get the induced graph for the next iteration of Louvain
     }
 
