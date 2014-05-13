@@ -62,9 +62,9 @@ public class TfIdf extends Configured implements Tool {
      */
     public static double termFrequency(int count, int docLength) {
         // WARNING beware of integer divisions...
-        
-        //TODO
-        return 0;
+        // TODO
+        return (double)count / (double) docLength;
+        //return 0;
     }
 
 
@@ -81,7 +81,8 @@ public class TfIdf extends Configured implements Tool {
         int nbDocs = Constants.NB_IMDB_MOVIES;
         
         //TODO
-        return 0;
+        return Math.log((double) nbDocs / (double) docsWithWords);
+        //return 0;
     }
 
 }

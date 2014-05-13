@@ -69,7 +69,14 @@ public class WordCount {
                 throws IOException, InterruptedException {
             
             //TODO
-            
+        	int sum = 0;
+    		for (IntWritable value: inputValues) {
+    			sum += value.get();
+    		}
+    		
+    		this.outputValue.set(sum);
+    		
+    		context.write(inputKey, this.outputValue);
         }
     }
 

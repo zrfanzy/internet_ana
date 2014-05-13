@@ -50,7 +50,11 @@ public class DocumentLength {
                 throws IOException, InterruptedException {
             TermDocumentPair pair = TermDocumentPair.fromText(inputKey);
             int count = Integer.parseInt(inputValue.toString());
-            
+            String inputText = inputKey.toString();
+            String term = inputText.substring(0, inputText.indexOf(':'));
+            outputKey.set(Integer.parseInt(inputText.substring(inputText.indexOf(':') + 1)));
+            outputValue.set(term + ":" + count);
+            context.write(outputKey, outputValue);
             //TODO
             
         }
