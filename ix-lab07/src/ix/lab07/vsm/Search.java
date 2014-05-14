@@ -94,15 +94,20 @@ public class Search extends Configured implements Tool  {
              */
             
             //TODO
-
+        	double ans = 0.0;
+        	double norm = 0.0;
             for (Text value : inputValues) {
                 String[] parts = value.toString().split(SEPARATOR);
                 String word = parts[0];
                 double weight = Double.parseDouble(parts[1]);
-
+                norm = norm + weight * weight;
+                if (query.containsKey(word)) {
+                	ans = ans + weight * query.get(word);
+                }
                 // ...
             }
-
+            outputValue.set(ans / Math.sqrt((double) norm));
+            context.write(inputKey, outputValue);
             // ...
         }
 
