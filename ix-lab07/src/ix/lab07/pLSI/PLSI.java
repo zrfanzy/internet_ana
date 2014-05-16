@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map.Entry;
 import java.util.Random;
+import java.util.Set;
 
 public class PLSI {
 
@@ -57,9 +58,7 @@ public class PLSI {
             int nbIterations) throws IOException {
         this.nbTopics = nbTopics;
         this.corpus = new Corpus(corpusFileName);
-
         List<Double> logLikelihoods = new ArrayList<Double>();
-
         this.initialize();
         for (int i = 0; i < nbIterations; ++i) {
             this.eStep();
@@ -154,6 +153,13 @@ public class PLSI {
                 // useful for the sparse storage of Pz_dw.
 
                 // TODO
+                double sum = 0.0;
+                for (int z = 0; z < nbTopics; ++z) {
+                	sum = sum + this.Pw_z[w_corpus][z] * this.Pz_d[z][d];
+                }
+                for (int z = 0; z < nbTopics; ++z) {
+                	this.Pz_dw[z][d][w_doc] = this.Pw_z[w_corpus][z] * this.Pz_d[z][d] / sum;
+                }
             }
         }
     }
@@ -172,6 +178,35 @@ public class PLSI {
         // the e-step.
 
         // TODO
+        for (int z = 0; z < nbTopics; ++z) {
+        	double sum = 0.0;
+        	for (int w = 0; w < vocabularySize; ++w) {
+        		this.Pw_z[w][z] = 0.0;
+        		Set<Integer> doc = corpus.getDocumentsContaining(w);
+				for (int d : doc) {
+        			int w_doc = corpus.getWordPositionInDocument(w, d);
+        			int nb = corpus.getDocument(d).get(w);
+        			this.Pw_z[w][z] += this.Pz_dw[z][d][w_doc] * nb;
+        		}
+        		sum += this.Pw_z[w][z];
+        	}
+        	for (int w = 0; w < vocabularySize; ++w)
+        		this.Pw_z[w][z] /= sum;
+        }
+        for (int d = 0; d < nbDocuments; ++d) {
+        	double sum = 0.0;
+        	for (int z = 0; z < nbTopics; ++z) {
+        		this.Pz_d[z][d] = 0.0;
+        		for (Entry<Integer, Integer> e : corpus.getDocument(d).entrySet()) {
+        			int w_corpus = e.getKey();
+                    int w_doc = corpus.getWordPositionInDocument(w_corpus, d);
+                    this.Pz_d[z][d] += e.getValue() * this.Pz_dw[z][d][w_doc];
+    			}
+        		sum += this.Pz_d[z][d];
+        	}
+        	for (int z = 0; z < nbTopics; ++z)
+        		this.Pz_d[z][d] /= sum;
+        }
     }
 
     /**
