@@ -1,5 +1,7 @@
 package ix.lab08.pagerank;
 
+import static org.junit.Assert.assertEquals;
+
 import java.util.Map;
 
 import org.apache.hadoop.thirdparty.guava.common.collect.TreeMultimap;
@@ -25,6 +27,19 @@ public class Manipulation {
      */
     public static void addIncomingEdges(Graph graph, int node) {
         // TODO
+    	PageRankAlgorithm algo = new PowerMethod();
+        PageRank pr = algo.compute(graph);
+        int max = -1;
+    	for (int i = 0; i < graph.size(); ++i) {
+    		if (i == node) continue;
+            if (!graph.containsEdge(i, node)) {
+            	if (max == -1) max = i;
+            	else if (pr.get(max) - pr.get(i) < 1e-9) {
+            		max = i;
+            	}
+            }
+        }
+    	graph.addEdge(max, node);
     }
 
 

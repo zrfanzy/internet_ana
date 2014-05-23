@@ -28,6 +28,25 @@ public class PowerMethod implements PageRankAlgorithm {
         double theta = 1 - DAMPING_FACTOR;
 
         // TODO
+        double[][] H = new double[n][n];
+        for (int i = 0; i < n; ++i) {
+        	List<Integer> nei = graph.neighbors(i);
+        	if (nei.size() == 0) {
+        		for (int j = 0; j < n; ++j) {
+        			H[i][j] = 1 / (double)n;
+        		}
+        	} else {
+        		for (int j = 0; j < n; ++j) {
+        			if ((i != j) && graph.containsEdge(i, j)) {
+        				H[i][j] = 1 / (double)nei.size();
+        			}
+        		}
+        	}
+        } // ^H
+        for (int i = 0; i < n; ++i)
+        	for (int j = 0; j < n; ++j)
+        		probs[i][j] = theta * H[i][j] + (1 - theta) / (double) n;
+        
         return probs;
     }
 
@@ -97,8 +116,12 @@ public class PowerMethod implements PageRankAlgorithm {
     public PageRank compute(Graph graph) {
         double[][] probs = googleMatrix(graph);
         double[] vec = initVector(graph.size());
+        double[] vec1 = initVector(graph.size());
         // TODO
-
+        do {
+        	vec = vec1.clone();
+        	vec1 = multiply(vec, probs);
+        } while (mse(vec, vec1) > TOLERANCE);
         return new PageRank(graph, vec);
     }
 
