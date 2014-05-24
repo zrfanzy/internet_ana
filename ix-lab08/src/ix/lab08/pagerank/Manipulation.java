@@ -30,16 +30,20 @@ public class Manipulation {
     	PageRankAlgorithm algo = new PowerMethod();
         PageRank pr = algo.compute(graph);
         int max = -1;
-    	for (int i = 0; i < graph.size(); ++i) {
-    		if (i == node) continue;
-            if (!graph.containsEdge(i, node)) {
-            	if (max == -1) max = i;
-            	else if (pr.get(max) - pr.get(i) < 1e-9) {
-            		max = i;
+        for (int loops = 0; loops < 300; ++loops) {
+        	max = -1;
+        	for (int i = 0; i < graph.size(); ++i) {
+    			if (i == node) continue;
+            	if (!graph.containsEdge(i, node)) {
+            		if (max == -1) max = i;
+            		else if (pr.get(max) - pr.get(i) < 1e-9) {
+            			max = i;
+            		}
             	}
-            }
+        	}
+        	if (max < 0) return;
+    		graph.addEdge(max, node);
         }
-    	graph.addEdge(max, node);
     }
 
 
@@ -52,12 +56,53 @@ public class Manipulation {
      */
     public static void addEdges(Graph graph, int node) {
         // TODO
+    	PageRankAlgorithm algo = new PowerMethod();
+        PageRank pr = algo.compute(graph);
+        int max = -1;
+        int loops;
+        for (loops = 0; loops < 300; ++loops) {
+        	max = node;
+        	for (int i = 0; i < graph.size(); ++i) {
+    			if ((node != i) && (!graph.containsEdge(i, node))) {
+            		if (pr.get(max) - pr.get(i) < 1e-9) {
+            			max = i;
+            		}
+            	}
+    			else if (node == i && pr.get(max) - pr.get(i) < 1e-9)
+    				max = i;
+        	}
+        	if (max == node) break;
+    		graph.addEdge(max, node);
+        }
+        for (; loops < 300; ++loops) {
+        	max = -1;
+        	for (int i = 0; i < graph.size(); ++i) {
+    			if (i == node) continue;
+            	if ((!graph.containsEdge(i, node)) || (!graph.containsEdge(node, i))) {
+            		if (max == -1) max = i;
+            		else if (pr.get(max) - pr.get(i) < 1e-9) {
+            			max = i;
+            		}
+            	}
+        	}
+        	if (max < 0) return;
+        	if (!graph.containsEdge(max, node)) {
+        		graph.addEdge(max, node);
+        		loops ++;
+        	}
+        	if (!graph.containsEdge(node, max)) {
+        		graph.addEdge(node, max);
+        		loops ++;
+        	}
+        	loops --;
+        }
     }
 
 
     public static void main(String[] args) throws Exception {
         Graph graph = Graph.fromFile(Graph.WIKIPEDIA_PATH);
-        addIncomingEdges(graph, HISTORY_OF_MATHS);
+        //addIncomingEdges(graph, HISTORY_OF_MATHS);
+        addEdges(graph, HISTORY_OF_MATHS);
 
         PageRank pr = new PowerMethod().compute(graph);
         System.out.println(String.format("You're at %.2f%% of our best pagerank!",
