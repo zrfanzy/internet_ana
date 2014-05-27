@@ -2,6 +2,8 @@ package ix.lab08.pagerank;
 
 import static org.junit.Assert.assertEquals;
 
+import java.awt.List;
+import java.util.ArrayList;
 import java.util.Map;
 
 import org.apache.hadoop.thirdparty.guava.common.collect.TreeMultimap;
@@ -30,14 +32,17 @@ public class Manipulation {
     	PageRankAlgorithm algo = new PowerMethod();
         PageRank pr = algo.compute(graph);
         int max = -1;
+        double maxans = -1;
         for (int loops = 0; loops < 300; ++loops) {
         	max = -1;
         	for (int i = 0; i < graph.size(); ++i) {
     			if (i == node) continue;
             	if (!graph.containsEdge(i, node)) {
-            		if (max == -1) max = i;
-            		else if (pr.get(max) - pr.get(i) < 1e-9) {
+            		double now = pr.get(i) / (double)graph.neighbors(i).size();
+            		if (max == -1) {max = i; maxans = now;}
+            		else if (maxans - now < 1e-9) {
             			max = i;
+            			maxans = now;
             		}
             	}
         	}
@@ -59,8 +64,8 @@ public class Manipulation {
     	PageRankAlgorithm algo = new PowerMethod();
         PageRank pr = algo.compute(graph);
         int max = -1;
-        int loops;
-        for (loops = 0; loops < 300; ++loops) {
+        int loops = 0;
+        /*for (loops = 0; loops < 300; ++loops) {
         	max = node;
         	for (int i = 0; i < graph.size(); ++i) {
     			if ((node != i) && (!graph.containsEdge(i, node))) {
@@ -73,27 +78,42 @@ public class Manipulation {
         	}
         	if (max == node) break;
     		graph.addEdge(max, node);
-        }
+        }*/
+        ArrayList<Integer> addlists = new ArrayList<Integer>();
+        addlists.clear();
+        double maxans;
         for (; loops < 300; ++loops) {
         	max = -1;
+        	
         	for (int i = 0; i < graph.size(); ++i) {
     			if (i == node) continue;
-            	if ((!graph.containsEdge(i, node)) || (!graph.containsEdge(node, i))) {
+            	if ((!graph.containsEdge(i, node))) { // || (!graph.containsEdge(node, i)
             		if (max == -1) max = i;
+            		
             		else if (pr.get(max) - pr.get(i) < 1e-9) {
             			max = i;
             		}
             	}
         	}
-        	if (max < 0) return;
         	if (!graph.containsEdge(max, node)) {
         		graph.addEdge(max, node);
         		loops ++;
         	}
-        	if (!graph.containsEdge(node, max)) {
+        	/*if (!graph.containsEdge(node, max)) {
         		graph.addEdge(node, max);
         		loops ++;
-        	}
+        	}*/
+        	/*for (int i = 0; i < addlists.size(); ++i) {
+        		if (!graph.containsEdge(addlists.get(i), max)) {
+        			graph.addEdge(addlists.get(i), max);
+        			loops ++;
+        		}
+        		/*if (!graph.containsEdge(max, addlists.get(i))) {
+        			graph.addEdge(max, addlists.get(i));
+        			loops ++;
+        		}*/
+        	//}
+        	addlists.add(max);
         	loops --;
         }
     }
@@ -101,8 +121,8 @@ public class Manipulation {
 
     public static void main(String[] args) throws Exception {
         Graph graph = Graph.fromFile(Graph.WIKIPEDIA_PATH);
-        //addIncomingEdges(graph, HISTORY_OF_MATHS);
-        addEdges(graph, HISTORY_OF_MATHS);
+        addIncomingEdges(graph, HISTORY_OF_MATHS);
+        //addEdges(graph, HISTORY_OF_MATHS);
 
         PageRank pr = new PowerMethod().compute(graph);
         System.out.println(String.format("You're at %.2f%% of our best pagerank!",

@@ -1,0 +1,218 @@
+% !TEX TS-program = pdflatex
+% !TEX encoding = UTF-8 Unicode
+
+% This is a simple template for a LaTeX document using the "article" class.
+% See "book", "report", "letter" for other types of document.
+
+\documentclass[11pt]{article} % use larger type; default would be 10pt
+
+\usepackage[utf8]{inputenc} % set input encoding (not needed with XeLaTeX)
+\usepackage{graphicx}
+\usepackage{algorithm}
+\usepackage{algorithmicx}
+\usepackage{algpseudocode}
+\usepackage{multirow}
+
+%%% Examples of Article customizations
+% These packages are optional, depending whether you want the features they provide.
+% See the LaTeX Companion or other references for full information.
+
+%%% PAGE DIMENSIONS
+\usepackage{geometry} % to change the page dimensions
+\geometry{a4paper} % or letterpaper (US) or a5paper or....
+% \geometry{margin=2in} % for example, change the margins to 2 inches all round
+% \geometry{landscape} % set up the page for landscape
+%   read geometry.pdf for detailed page layout information
+\usepackage{listings}
+\usepackage{graphicx} % support the \includegraphics command and options
+
+% \usepackage[parfill]{parskip} % Activate to begin paragraphs with an empty line rather than an indent
+
+%%% PACKAGES
+\usepackage{booktabs} % for much better looking tables
+\usepackage{array} % for better arrays (eg matrices) in maths
+\usepackage{paralist} % very flexible & customisable lists (eg. enumerate/itemize, etc.)
+\usepackage{verbatim} % adds environment for commenting out blocks of text & for better verbatim
+\usepackage{subfig} % make it possible to include more than one captioned figure/table in a single float
+% These packages are all incorporated in the memoir class to one degree or another...
+
+%%% HEADERS & FOOTERS
+\usepackage{fancyhdr} % This should be set AFTER setting up the page geometry
+\pagestyle{fancy} % options: empty , plain , fancy
+\renewcommand{\headrulewidth}{0pt} % customise the layout...
+\lhead{}\chead{}\rhead{}
+\lfoot{}\cfoot{\thepage}\rfoot{}
+
+%%% SECTION TITLE APPEARANCE
+\usepackage{sectsty}
+\allsectionsfont{\sffamily\mdseries\upshape} % (See the fntguide.pdf for font help)
+% (This matches ConTeXt defaults)
+
+%%% ToC (table of contents) APPEARANCE
+\usepackage[nottoc,notlof,notlot]{tocbibind} % Put the bibliography in the ToC
+\usepackage[titles,subfigure]{tocloft} % Alter the style of the Table of Contents
+\renewcommand{\cftsecfont}{\rmfamily\mdseries\upshape}
+\renewcommand{\cftsecpagefont}{\rmfamily\mdseries\upshape} % No bold!
+
+%%% END Article customizations
+
+%%% The "real" document content comes below...
+
+\title{Lab 8: PageRank}
+\author{Ruofan Zhou}
+%\date{} % Activate to display a given date or no date (if empty),
+         % otherwise the current date is printed 
+
+\begin{document}
+\maketitle
+
+\section{Random Surfer Model}
+\subsection{NaiveRandomSurfer}
+The method \textbf{compute} is complemented as below:\\
+\begin{lstlisting}[language=JAVA]
+public PageRank compute(Graph graph) {
+        int nbNodes = graph.size();
+        double[] probabilities = new double[nbNodes];
+        
+        Random rand = new Random();
+        int nownode = rand.nextInt(nbNodes);
+        for (int loops = 0; loops < NB_ITERATIONS; ++loops) {
+        		List<Integer> nei = graph.neighbors(nownode);
+        		int mount = nei.size();
+      	  	int next = rand.nextInt(mount);
+        		next = (Integer) nei.get(next);
+        		probabilities[next] += 1;
+   	     	nownode = next;
+        }
+        for (int i = 0; i < nbNodes; ++i)
+        		probabilities[i] = (double)probabilities[i]
+			/ NB_ITERATIONS;
+        return new PageRank(graph, probabilities);
+    }
+\end{lstlisting}
+\\
+The \textbf{component.graph} is not a connected graph, thus the NaiveRandomSurfer can't go to somewhere of the graph(i.e., some nodes' PageRank is 0).\\
+The \textbf{absorbing.graph} has a node with no outdegree, thus cause an Exception when using NaiveRandomSurfer.\\
+
+\subsection{RandomSurfer}
+The method \textbf{compute} is complemented as below:\\
+\begin{lstlisting}[language=JAVA]
+public PageRank compute(Graph graph) {
+        int nbNodes = graph.size();
+        double[] probabilities = new double[nbNodes];
+
+        Random rand = new Random();
+        int nownode = rand.nextInt(nbNodes);
+        for (int loops = 0; loops < NB_ITERATIONS; ++loops) {
+        		List<Integer> nei = graph.neighbors(nownode);
+        		int mount = nei.size();
+        		double rant = rand.nextDouble();
+        		if (rant - 0.15 < 1e-9 || mount < 1) {
+        			nownode = rand.nextInt(nbNodes);
+        			probabilities[nownode] += 1;
+        		}
+        	else {
+        		int next = rand.nextInt(mount);
+        		next = (Integer) nei.get(next);
+        		probabilities[next] += 1;
+        		nownode = next;
+        	}
+        }
+        for (int i = 0; i < nbNodes; ++i)
+        		probabilities[i] = (double)probabilities[i]
+			/ NB_ITERATIONS;
+        return new PageRank(graph, probabilities);
+    }
+\end{lstlisting}
+\\
+It now can deal with the component.graph and absorbing.graph.
+
+\section{Power Iteration Method}
+
+\subsection{googleMatrix}
+
+\begin{lstlisting}[language=JAVA]
+public static double[][] googleMatrix(Graph graph) {
+        int n = graph.size();
+        double[][] probs = new double[n][n];
+        double delta = DAMPING_FACTOR / n;
+        double theta = 1 - DAMPING_FACTOR;
+
+        double[][] H = new double[n][n];
+        for (int i = 0; i < n; ++i) {
+        		List<Integer> nei = graph.neighbors(i);
+        		if (nei.size() == 0) {
+        			for (int j = 0; j < n; ++j) {
+        				H[i][j] = 1 / (double)n;
+        			}
+        	} else {
+        		for (int j = 0; j < n; ++j) {
+        			if ((i != j) && graph.containsEdge(i, j)) {
+        				H[i][j] = 1 / (double)nei.size();
+        			}
+        		}
+        	}
+        } // ^H
+        for (int i = 0; i < n; ++i)
+        		for (int j = 0; j < n; ++j)
+        			probs[i][j] = theta * H[i][j] +
+			(1 - theta) / (double) n;
+        
+        return probs;
+    }
+\end{lstlisting}
+\subsection{20 First PageRank}
+1    United States (PR: 0.73570\%)\\
+2    United Kingdom (PR: 0.52027\%)\\
+3    France (PR: 0.48089\%)\\
+4    Europe (PR: 0.43404\%)\\
+5    England (PR: 0.39715\%)\\
+6    Germany (PR: 0.38127\%)\\
+7    Latin (PR: 0.37843\%)\\
+8    World War II (PR: 0.35895\%)\\
+9    India (PR: 0.34712\%)\\
+10   English language (PR: 0.33081\%)\\
+11   Australia (PR: 0.32051\%)\\
+12   London (PR: 0.30620\%)\\
+13   Japan (PR: 0.30054\%)\\
+14   Italy (PR: 0.28641\%)\\
+15   Canada (PR: 0.28597\%)\\
+16   Water (PR: 0.28466\%)\\
+17   China (PR: 0.28365\%)\\
+18   Spain (PR: 0.24892\%)\\
+19   Russia (PR: 0.24787\%)\\
+20   Animal (PR: 0.24766\%)\\
+
+\subsection{Gaming The System}
+
+\subsection{AddIncomingEdges}
+
+\begin{lstlisting}[language=JAVA]
+public static void addIncomingEdges(Graph graph, int node) {
+    	PageRankAlgorithm algo = new PowerMethod();
+        PageRank pr = algo.compute(graph);
+        int max = -1;
+        double maxans = -1;
+        for (int loops = 0; loops < 300; ++loops) {
+        		max = -1;
+        		for (int i = 0; i < graph.size(); ++i) {
+    			if (i == node) continue;
+            		if (!graph.containsEdge(i, node)) {
+            			double now = pr.get(i) /
+					(double)graph.neighbors(i).size();
+            			if (max == -1) {max = i; maxans = now;}
+            		else if (maxans - now < 1e-9) {
+            			max = i;
+            			maxans = now;
+            		}
+            	}
+        	}
+        	if (max < 0) return;
+    		graph.addEdge(max, node);
+        }
+    }
+\end{lstlisting}
+\\And ran 98.51\% of the standard best pagerank. \\
+\subsection{AddEdges}
+I tried some algorthms but none of them work better than \textbf{addIncomingEdges}.
+\end{document}
