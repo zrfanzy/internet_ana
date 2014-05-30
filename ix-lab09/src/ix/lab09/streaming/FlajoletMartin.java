@@ -1,6 +1,8 @@
 package ix.lab09.streaming;
 
 import java.io.InputStream;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.Iterator;
 
 import org.apache.hadoop.thirdparty.guava.common.base.Preconditions;
@@ -42,7 +44,34 @@ public class FlajoletMartin implements UniqueWordsCounter {
             this.processWord(iter.next());
         }
         // TODO Complete.
-        return 0L;
+        /*double sum = 0;
+        for (int i = 0; i < hashFunctions.length; ++i) {
+        	sum = (double)((long)sum + 2 << maxZeros[i]);
+        }
+        return (long)(sum / hashFunctions.length);*/
+        /*double[] arr = new double[(hashFunctions.length)];
+        for (int i = 0; i < hashFunctions.length; ++i) {
+        	arr[i] = 2 << maxZeros[i];
+        }
+        return (long)median(arr);*/
+        double[] arr = new double[(hashFunctions.length + 2) / 3];
+        for (int i = 0; i < hashFunctions.length; ++i) {
+        	arr[i / 3] = 2 << maxZeros[i];
+        	int sum = 1;
+        	++ i;
+        	if (i < hashFunctions.length) {
+        		sum ++;
+        		arr[i / 3] += 2 << maxZeros[i];
+        		++i;
+        		if (i < hashFunctions.length) {
+        			sum ++;
+        			arr[i / 3] += 2 << maxZeros[i];
+        			++i;
+        		}
+        	}
+        	arr[i / 3] = arr[i / 3] / ((double)sum * 1.0);
+        }
+        return (long)median(arr);
     }
 
 
@@ -52,7 +81,12 @@ public class FlajoletMartin implements UniqueWordsCounter {
         // TODO Complete.
         // Note: if the array has even length, we define the median as the
         // average of the two middle values.
-        return 0.0;
+        Arrays.sort(arr);
+        int num = arr.length;
+        if (num % 2 == 0) {
+        	return (arr[num / 2] + arr[num / 2 - 1]) / 2.0;
+        }
+        else return arr[num / 2];
     }
 
 
@@ -64,6 +98,11 @@ public class FlajoletMartin implements UniqueWordsCounter {
      */
     public void processWord(String word) {
         // TODO Complete.
+    	for (int i = 0; i < hashFunctions.length; ++i) {
+    		int count = this.getLeadingZeros(hashFunctions[i].hash(word), nbBits);
+    	    if (maxZeros[i] < count)
+    	    	maxZeros[i] = count;
+    	}
     }
 
 
@@ -83,8 +122,8 @@ public class FlajoletMartin implements UniqueWordsCounter {
     public static void main(String[] args) throws Exception {
         InputStream input = WordStream.getInputFromArgs(args);
 
-        int nbBits = 24;  // The number of bits for each hash.
-        int nbHashes = 10;  // The number of hash functions.
+        int nbBits = 40;  // The number of bits for each hash.
+        int nbHashes = 100;  // The number of hash functions.
 
         UniqueWordsCounter counter = new FlajoletMartin(nbBits, nbHashes);
         Iterator<String> stream = new WordStream(input);
