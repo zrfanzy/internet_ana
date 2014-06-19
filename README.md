@@ -35,3 +35,21 @@ Make recommender system on data from THE NETFLIX PRIZE<br />
 
 Lab06: Clustering and Community Detection
 -------------
+Using "expectation-maximization" with 2 algorithms(k-means and Gaussian mixture models) to clustring<br />
+Louvain algorithm for community detection.
+
+Lab 07: Search and Retrieval
+-------------
+Using VSM with TF-IDF weighting and latent semantic indexing on the data.<br />
+Using tool SVD.<br />
+pLSI and loglikelihood.
+
+Lab 08: PageRank
+-------------
+Naive PageRank: only consider ramdom walk.<br />
+Power Interation Method: using Google Matrix.<br />
+Add edge to increase PageRank.
+
+Lab 09: Flajolet-Martin
+-------------
+Using Flajolet-Martin algorithm to count words.
